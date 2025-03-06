@@ -1,12 +1,12 @@
 clear
 clc
 
-ReadPath = "E:\研究所/中科院/HCdata/data/squat_02";%walking_01 squat_01
-Savepath = 'E:\研究所/motor/matlab/motor_data/command_matlab/HC_SQT200_2.txt';
-Savepath_LH = 'E:\研究所/motor/matlab/motor_data/command_matlab/HC_LH_SQT400_2.txt';
-Savepath_RH = 'E:\研究所/motor/matlab/motor_data/command_matlab/HC_RH_SQT400_2.txt';
-Savepath_LK = 'E:\研究所/motor/matlab/motor_data/command_matlab/HC_LK_SQT400_2.txt';
-Savepath_RK = 'E:\研究所/motor/matlab/motor_data/command_matlab/HC_RK_SQT400_2.txt';
+ReadPath = ".csv";
+Savepath = '.txt';
+Savepath_LH = '.txt';
+Savepath_RH = '.txt';
+Savepath_LK = '.txt';
+Savepath_RK = '.txt';
 
 
 %%
@@ -43,48 +43,6 @@ gap=5;
 
 deg2rad = pi/180;
 
-%% 
-% figure(1000)
-% subplot(2,2,1)
-% plot(SampleTime,LHSU_ANGLE,'red',SampleTime,LHSU_smooth_D,'blue')
-% title('LHSU')
-% subplot(2,2,2)
-% plot(SampleTime,RHSU_ANGLE,'red',SampleTime,RHSU_smooth_D,'blue')
-% title('RHSU')
-% subplot(2,2,3)
-% plot(SampleTime,LKCU_ANGLE,'red',SampleTime,LKCU_smooth_D,'blue')
-% title('LKCU')
-% subplot(2,2,4)
-% plot(SampleTime,RKCU_ANGLE,'red',SampleTime,RKCU_smooth_D,'blue')
-% title('RKCU')
-% 
-% figure(2000)
-% subplot(2,2,1)
-% plot(SampleTime,LHSU_V ,'red',SampleTime,LHSU_smooth_V ,'blue')
-% title('LHSU')
-% subplot(2,2,2)
-% plot(SampleTime,RHSU_V ,'red',SampleTime,RHSU_smooth_V ,'blue')
-% title('RHSU')
-% subplot(2,2,3)
-% plot(SampleTime,LKCU_V ,'red',SampleTime,LKCU_smooth_V ,'blue')
-% title('LKCU')
-% subplot(2,2,4)
-% plot(SampleTime,RKCU_V ,'red',SampleTime,RKCU_smooth_V ,'blue')
-% title('RKCU')
-% 
-% figure(13)
-% subplot(2,2,1)
-% plot(SampleTime,LHSU_smooth_A ,'blue')
-% title('LHSU')
-% subplot(2,2,2)
-% plot(SampleTime,RHSU_smooth_A ,'blue')
-% title('RHSU')
-% subplot(2,2,3)
-% plot(SampleTime,LKCU_smooth_A ,'blue')
-% title('LKCU')
-% subplot(2,2,4)
-% plot(SampleTime,RKCU_smooth_A ,'blue')
-% title('RKCU')
 %%
 gap = 10;
 [LHSU_characteristic] = Find_characteristic(SampleTime,LHSU_smooth_D,LHSU_smooth_V,LHSU_smooth_A,gap);
@@ -120,19 +78,6 @@ LKCU_characteristic_Degree = LKCU_characteristic(:,3);
 LKCU_characteristic_Velo = LKCU_characteristic(:,4);
 LKCU_characteristic_Acc = LKCU_characteristic(:,5);
 
-% figure(201)
-% subplot(1,2,1)
-% plot(LKCU_characteristic_time,LKCU_characteristic_Degree,'ro',SampleTime,LKCU_smooth_D,'blue')
-% title('Degree')
-% xlabel('time(s)')
-% ylabel('postion(Rev)')
-% legend('Control points','raw data')
-% subplot(1,2,2)
-% plot(LKCU_characteristic_time,LKCU_characteristic_Velo,'ro',SampleTime,LKCU_smooth_V,'blue')
-% title('Velocity')
-% xlabel('time(s)')
-% ylabel('postion(rev/s)')
-% legend('Control points','raw data')
 [LKCU_command,LKCU_V] = Curve2command_changeValue(LKCU_characteristic_index,LKCU_smooth_D,SampleTime,1);
 
 
@@ -145,27 +90,7 @@ RKCU_characteristic_Degree = RKCU_characteristic(:,3);
 RKCU_characteristic_Velo = RKCU_characteristic(:,4);
 RKCU_characteristic_Acc = RKCU_characteristic(:,5);
 
-% figure(201)
-% subplot(1,2,1)
-% plot(RKCU_characteristic_time,RKCU_characteristic_Degree,'ro',SampleTime,RKCU_smooth_D,'blue')
-% title('Rev')
-% xlabel('time(s)')
-% ylabel('Degree(rev)')
-% legend('Control points','raw data')
-% subplot(1,2,2)
-% plot(RKCU_characteristic_time,RKCU_characteristic_Velo,'ro',SampleTime,RKCU_smooth_V,'blue')
-% title('Velocity')
-% xlabel('time(s)')
-% ylabel('Velocity(rev/s)')
-% legend('Control points','raw data')
 [RKCU_command,RKCU_V] = Curve2command_changeValue(RKCU_characteristic_index,RKCU_smooth_D,SampleTime,4);
-
-%%
-% [LHSU_command,LKCU_command] = Curve2command_HK(LHSU_characteristic_index,LKCU_characteristic_index,LHSU_smooth_D,LKCU_smooth_D,SampleTime,gap,1,2);
-% [RHSU_command,RKCU_command] = Curve2command_HK(RHSU_characteristic_index,RKCU_characteristic_index,RHSU_smooth_D,RKCU_smooth_D,SampleTime,gap,3,4);
-
-%[LHSU_command,RHSU_command] = Curve2command_HK(LHSU_characteristic_index,RHSU_characteristic_index,LHSU_smooth_D,RHSU_smooth_D,SampleTime,gap,2,3);
-%[LKCU_command,RKCU_command] = Curve2command_HK(LKCU_characteristic_index,RKCU_characteristic_index,LKCU_smooth_D,RKCU_smooth_D,SampleTime,gap,1,4);
 
 %%
 time = [LHSU_command(:,1);LKCU_command(:,1);RHSU_command(:,1);RKCU_command(:,1)];

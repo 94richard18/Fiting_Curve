@@ -1,12 +1,5 @@
 function [characteristic] = Find_characteristic(time_real,smooth_D,smooth_V,smooth_A,gap)
 
-% deg2pulse = 1003846/360;
-% %這個for是強迫abs(A)<0.02 通通設為0
-% for i =1:length(smooth_A)
-%     if abs(smooth_A(i))<30
-%         smooth_A(i)=0;
-%     end
-% end
 %這個for是強迫abs(V)<0.001 通通設為0
 for i =1:length(smooth_V)
     if abs(smooth_V(i))<0.1
@@ -30,30 +23,6 @@ for i=1:length(smooth_V)-1
         end
     end
 end
-
-% for i=1:length(smooth_A)-1
-%     tempt = smooth_A(i)*smooth_A(i+1);
-%     if tempt<0
-%         if abs(smooth_A(i))>abs(smooth_A(i+1))
-%             control_points=[control_points i+1];
-%         else
-%             control_points=[control_points i];
-%         end
-%     elseif tempt==0
-%         if abs(smooth_A(i))==0
-%             control_points=[control_points i];
-%         end
-%     end
-% end
-control_points=[control_points length(smooth_A)];
-% add = [];
-% for i=1:length(control_points)-1
-%     add_ = round((control_points(i) + control_points(i+1))/2 ,0);
-%     add=[add add_];
-% end
-% 
-% control_points = sort(unique([control_points add]));
-
 
 same=[];
 control_points_real=[];
@@ -133,9 +102,6 @@ for i=1:length(control_points_real)
     velo_smooth= [velo_smooth smooth_V(control_points_real(i))];
     acc_smooth= [acc_smooth smooth_A(control_points_real(i))];
 end
-
-% time(end) = time_real(end);
-% time(1) = time_real(1);
 
 characteristic=[control_points_real' time_smooth' Degree_smooth' velo_smooth' acc_smooth'];
 

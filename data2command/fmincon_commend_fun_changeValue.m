@@ -10,18 +10,8 @@ coef = spline_2(command_D,command_t);
 D = reshape(D,[1 length(D)]);
 time = reshape(time,[1 length(time)]);
 
-%score = sum((spline_Degree - D).^2);
-%score = max((spline_Degree - D).^2)
-%score = sqrt(max((spline_Degree - D).^2))
-%score = (max((spline_Degree - D).^2)*length(spline_Degree)/2 + sum((spline_Degree - D).^2))
 score = sum((spline_Degree - D).^2)*0.4 +  max((spline_Degree - D).^2)*0.6*10;
 
 score = score*1e4
-% figure(motor_ID)
-% plot(time,spline_Degree,'red',time,D,'Blue',command_t,command_D,'ro')
-% title('Rev spline')
-% xlabel('time(s)')
-% ylabel('Degree(rev)')
-% legend('spline','raw data')
 
 end
